@@ -1,0 +1,10 @@
+# Build output
+bin/
+obj/
+
+# Editors
+.vs/
+.idea/
+*.user
+*.suo
+*.DotSettings.user

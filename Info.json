@@ -1,0 +1,9 @@
+{
+  "Id": "RagdollTweaks",
+  "DisplayName": "Ragdoll Tweaks",
+  "Author": "Author",
+  "Version": "1.0.0",
+  "ManagerVersion": "0.25.0",
+  "AssemblyName": "RagdollTweaks.dll",
+  "EntryMethod": "RagdollTweaks.Main.Load"
+}

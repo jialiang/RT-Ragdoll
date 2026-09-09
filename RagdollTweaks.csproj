@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>RagdollTweaks</AssemblyName>
+    <RootNamespace>RagdollTweaks</RootNamespace>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugType>portable</DebugType>
+
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UserDataDirectory>$(LOCALAPPDATA)Low\Owlcat Games\Warhammer 40000 Rogue Trader</UserDataDirectory>
+    <ModsDirectory>$(UserDataDirectory)\UnityModManager</ModsDirectory>
+    <InstallDirectory>$(ModsDirectory)\RagdollTweaks</InstallDirectory>
+    <PlayerLogPath>$(UserDataDirectory)\Player.log</PlayerLogPath>
+  </PropertyGroup>
+
+  <!-- Unity writes the Managed folder into its own log on every launch, as "Mono path[0] = '...'", so read it back from there. -->
+  <PropertyGroup Condition="Exists('$(PlayerLogPath)')">
+    <PlayerLogText>$([System.IO.File]::ReadAllText('$(PlayerLogPath)'))</PlayerLogText>
+    <ManagedDirectory>$([System.Text.RegularExpressions.Regex]::Match($(PlayerLogText), "(?&lt;=Mono path\[0\] = ')[^']*"))</ManagedDirectory>
+  </PropertyGroup>
+
+  <Target Name="CheckPrerequisites" BeforeTargets="BeforeBuild">
+    <Error
+      Condition="!Exists('$(ManagedDirectory)')"
+      Text="Game not found. Launch the game once so it writes $(PlayerLogPath). Managed folder read from the log: '$(ManagedDirectory)'"
+    />
+    <Error
+      Condition="!Exists('$(ModsDirectory)\UnityModManager.dll')"
+      Text="Unity Mod Manager not found at $(ModsDirectory)\UnityModManager.dll. Run the UMM installer against this game first."
+    />
+  </Target>
+
+  <ItemGroup>
+    <Reference Include="$(ManagedDirectory)\mscorlib.dll" Private="false" />
+    <Reference Include="$(ManagedDirectory)\netstandard.dll" Private="false" />
+
+    <Reference Include="$(ManagedDirectory)\0Harmony.dll" Private="false" />
+    <Reference Include="$(ManagedDirectory)\Code.dll" Private="false" />
+    <Reference Include="$(ManagedDirectory)\UnityEngine.dll" Private="false" />
+    <Reference Include="$(ManagedDirectory)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(ManagedDirectory)\UnityEngine.PhysicsModule.dll" Private="false" />
+    <Reference Include="$(ManagedDirectory)\UnityEngine.IMGUIModule.dll" Private="false" />
+    <Reference Include="$(ModsDirectory)\UnityModManager.dll" Private="false" />
+  </ItemGroup>
+
+  <Target Name="InstallToModsFolder" AfterTargets="Build">
+    <MakeDir Directories="$(InstallDirectory)" />
+    <Copy
+      SourceFiles="$(TargetPath);$(TargetDir)$(AssemblyName).pdb;$(ProjectDir)Info.json"
+      DestinationFolder="$(InstallDirectory)"
+    />
+    <Message Importance="high" Text="Installed to $(InstallDirectory)" />
+  </Target>
+</Project>
