@@ -1,5 +1,7 @@
 # Ragdoll Tweaks
 
+![Preview screenshot](https://github.com/jialiang/RT-Ragdoll/blob/master/preview.png?raw=true)
+
 Allow physics parameters to be configured for the game Warhammer 40,000: Rogue Trader.
 
 This mod was created to fix the issue of enemy ragdolls jittering when they die.
