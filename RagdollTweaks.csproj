@@ -32,7 +32,7 @@
     />
     <Error
       Condition="!Exists('$(ModsDirectory)\UnityModManager.dll')"
-      Text="Unity Mod Manager not found at $(ModsDirectory)\UnityModManager.dll. Run the UMM installer against this game first."
+      Text="Unity Mod Manager not found at $(ModsDirectory)\UnityModManager.dll. Launch the game once so it unpacks its bundled copy."
     />
   </Target>
 

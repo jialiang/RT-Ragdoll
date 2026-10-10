@@ -17,8 +17,11 @@ Default values of this mod mainly follow what Owlcat set for their next game Dar
 
 ## Installation
 
-0. Run the game at least once.
-1. Download and install [Unity Mod Manager](https://www.nexusmods.com/site/mods/21) (0.25.0 or newer).
+The game ships with its own Unity Mod Manager, which it unpacks into the mods
+folder below on launch. Don't install the standalone one from Nexus: it can
+conflict with the bundled copy.
+
+1. Run the game at least once.
 2. Build using `dotnet build -c Release`. Requires .NET SDK 8.0 or newer.
 
 If installing a prebuilt copy, make sure `RagdollTweaks.dll` and `Info.json` are at
